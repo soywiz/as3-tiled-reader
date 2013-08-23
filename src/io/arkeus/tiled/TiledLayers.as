@@ -1,4 +1,6 @@
 package io.arkeus.tiled {
+	import flash.utils.Dictionary;
+
 	/**
 	 * A container holding all the layers within the map. Provides utility functions for grabbing
 	 * visible layers, tile layers, and all layers.
@@ -10,9 +12,12 @@ package io.arkeus.tiled {
 	public class TiledLayers {
 		/** The vector of layers in order from bottom to top. */
 		public var layers:Vector.<TiledLayer>;
+
+		public var layersByName:Dictionary;
 		
 		public function TiledLayers() {
 			layers = new Vector.<TiledLayer>;
+			layersByName = new Dictionary();
 		}
 		
 		/**
@@ -22,6 +27,7 @@ package io.arkeus.tiled {
 		 */
 		public function addLayer(layer:TiledLayer):void {
 			layers.push(layer);
+			layersByName[layer.name] = layer;
 		}
 		
 		/**
@@ -49,6 +55,56 @@ package io.arkeus.tiled {
 		 */
 		public function getTileLayers():Vector.<TiledLayer> {
 			return layers.filter(function(el:TiledLayer, i:int, arr:Vector.<TiledLayer>):Boolean { return el is TiledTileLayer; });
+		}
+
+		/**
+		 * Returns a TiledLayer by name.
+		 *
+		 * @param name Name of the layer to get.
+		 *
+		 * @return The TiledLayer.
+		 */
+		public function getTileLayerByName(name:String):TiledLayer
+		{
+			var layer:* = layersByName[name];
+			if (layer === undefined) throw(new Error("Can't find layer with name '" + name + "'"));
+			return layer;
+		}
+
+		/**
+		 * Returns a TiledLayer by name as a TiledImageLayer.
+		 *
+		 * @param name Name of the layer to get.
+		 *
+		 * @return The TiledImageLayer.
+		 */
+		public function getTileImageLayerByName(name:String):TiledImageLayer
+		{
+			return TiledImageLayer(getTileLayerByName(name));
+		}
+
+		/**
+		 * Returns a TiledLayer by name as a TiledTileLayer.
+		 *
+		 * @param name Name of the layer to get.
+		 *
+		 * @return The TiledTileLayer.
+		 */
+		public function getTileTiledLayerByName(name:String):TiledTileLayer
+		{
+			return TiledTileLayer(getTileLayerByName(name));
+		}
+
+		/**
+		 * Returns a TiledLayer by name as a TiledObjectLayer.
+		 *
+		 * @param name Name of the layer to get.
+		 *
+		 * @return The TiledObjectLayer.
+		 */
+		public function getTileObjectLayerByName(name:String):TiledObjectLayer
+		{
+			return TiledObjectLayer(getTileLayerByName(name));
 		}
 		
 		/**
