@@ -27,12 +27,13 @@ package io.arkeus.tiled {
 		public var terrain:Object;
 		/** A map from gid to tile for all the non-standard tiles in the tileset. */
 		public var tiles:Object;
-		
+
 		public function TiledTileset(tmx:XML) {
 			firstGid = tmx.@firstgid;
 			name = tmx.@name;
-			tileWidth = tmx.@tileWidth;
-			tileHeight = tmx.@tileHeight;
+			tileWidth = tmx.@tilewidth;
+			tileHeight = tmx.@tileheight;
+
 			spacing = "@spacing" in tmx ? tmx.@spacing : 0;
 			margin = "@margin" in tmx ? tmx.@margin : 0;
 			

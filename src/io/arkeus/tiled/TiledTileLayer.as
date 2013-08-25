@@ -18,5 +18,12 @@ package io.arkeus.tiled {
 			compression = "@compression" in dataNode ? dataNode.@compression : null;
 			data = TiledUtils.stringToTileData(dataNode.text(), width, encoding, compression);
 		}
+
+		public function getTile(x:int, y:int):int
+		{
+			if (x < 0 || x >= width) return 0;
+			if (y < 0 || y >= height) return 0;
+			return this.data[y][x];
+		}
 	}
 }
